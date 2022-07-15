@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FileCopy": {
+      "commandName": "Project",
+      "commandLineArgs": "-s C:\\Repos\\Dagifier.Web\\dagable.web\\public -d c:/test"
+    }
+  }
+}
