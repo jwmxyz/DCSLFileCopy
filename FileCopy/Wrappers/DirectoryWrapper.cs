@@ -1,27 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace FileCopy.Wrappers
 {
-    internal static class DirectoryWrapper
+    internal class DirectoryWrapper : IDirectoryWrapper
     {
-        public static string[] GetDirectories(string path, string searchPattern, SearchOption searchOption)
+        ///<inheritdoc cref="IDirectoryWrapper.GetAllDirectories(string)"/>
+        public string[] GetAllDirectories(string path)
         {
-            return Directory.GetDirectories(path, searchPattern, searchOption);
+            return Directory.GetDirectories(path, "*", SearchOption.AllDirectories);
         }
 
-        public static DirectoryInfo CreateDirectory(string path)
+        ///<inheritdoc cref="IDirectoryWrapper.CreateDirectory(string)"/>
+        public DirectoryInfo CreateDirectory(string path)
         {
             return Directory.CreateDirectory(path);
         }
 
-        public static string[] GetFiles(string path, string searchPattern, SearchOption searchOption)
+        ///<inheritdoc cref="IDirectoryWrapper.GetFiles(string)"/>
+        public string[] GetFiles(string path)
         {
-            return Directory.GetFiles(path, searchPattern, searchOption);
+            return Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
+        }
+
+        ///<inheritdoc cref="IDirectoryWrapper.Exists(string)"/>
+        public bool Exists(string path)
+        {
+            return Directory.Exists(path);
         }
     }
 }

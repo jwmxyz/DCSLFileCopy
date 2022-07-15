@@ -1,39 +1,35 @@
 ﻿using CommandLine;
 using FileCopy.Config;
 using FileCopy.Wrappers;
-using System;
-using System.IO;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FileCopy
 {
-    class Program
+    public static class Program
     {
+        private static readonly IServiceCollection services = new ServiceCollection();
+
         static void Main(string[] args)
         {
             Parser.Default.ParseArguments<CLIOptions>(args)
-                   .WithParsed(RunFileCopy);
+                   .WithParsed(RunProgram);                
         }
 
-        static void RunFileCopy(CLIOptions opts)
+        private static void ConfigureServices(IServiceCollection services)
         {
-            if (!opts.IsValid())
-            {
-                throw new Exception("Source and destination cannot be the same path");
-            }
+            services
+                .AddSingleton<IDirectoryWrapper, DirectoryWrapper>()
+                .AddSingleton<IPathWrapper, PathWrapper>();
+        }
 
-            if (!Directory.Exists(opts.DestinationPath))
-            {
-                DirectoryWrapper.CreateDirectory(opts.DestinationPath);
-            }
-
-            foreach (string dirPath in DirectoryWrapper.GetDirectories(opts.SourcePath, "*", SearchOption.AllDirectories))
-            DirectoryWrapper.CreateDirectory(Path.Combine(opts.DestinationPath, dirPath.Remove(0, opts.SourcePath.Length)));
-
-            foreach (string newPath in DirectoryWrapper.GetFiles(opts.SourcePath, "*.*", SearchOption.AllDirectories))
-            {
-                var destinationPath = Path.Combine(opts.DestinationPath, newPath.Remove(0, opts.SourcePath.Length));
-                File.Copy(newPath, Path.Combine(opts.DestinationPath, newPath.Remove(0, opts.SourcePath.Length)), true);
-            }
+        public static void RunProgram(CLIOptions opts)
+        {
+            ConfigureServices(services);
+            services
+                .AddSingleton<FileCopier, FileCopier>()
+                .BuildServiceProvider()
+                .GetService<FileCopier>()
+                .Execute(opts);
         }
     }
 }

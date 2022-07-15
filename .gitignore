@@ -2,3 +2,5 @@
 FileCopy/bin/
 FileCopy/obj/
 .vs
+FileCopy.Tests/bin
+FileCopy.Tests/obj
