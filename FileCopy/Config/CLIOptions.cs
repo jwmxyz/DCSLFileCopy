@@ -1,9 +1,13 @@
 ﻿using CommandLine;
+using FileCopy.Wrappers;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
 
 namespace FileCopy.Config
 {
-    public class CLIOptions
+    public class CLIOptions : IValidatableObject
     {
         [Option('s', "source", Required = true, HelpText = "The source directory path of where to copy from")]
         public Uri Source { private get; set; }
@@ -21,13 +25,17 @@ namespace FileCopy.Config
         /// </summary>
         public string DestinationPath => Destination.LocalPath;
 
-        /// <summary>
-        /// Used to check the the imputted strings are not the same
-        /// </summary>
-        /// <returns>true if the strings dont match false if they are equal.</returns>
-        public bool IsValid()
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            return !Source.AbsolutePath.Equals(Destination.AbsolutePath, StringComparison.OrdinalIgnoreCase);
+            if (Source.AbsolutePath.Equals(Destination.AbsolutePath, StringComparison.OrdinalIgnoreCase))
+            {
+                yield return new ValidationResult("Source uri cannot be the same as destination uri.");
+            }
+
+            if (!Directory.Exists(SourcePath))
+            {
+                yield return new ValidationResult("The source directory does not exists.");
+            }
         }
     }
 }

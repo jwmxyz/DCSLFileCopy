@@ -1,7 +1,11 @@
 ﻿using CommandLine;
 using FileCopy.Config;
+using FileCopy.Helpers;
 using FileCopy.Wrappers;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FileCopy
 {
@@ -12,7 +16,7 @@ namespace FileCopy
         static void Main(string[] args)
         {
             Parser.Default.ParseArguments<CLIOptions>(args)
-                   .WithParsed(RunProgram);                
+                   .WithParsed(RunProgram);
         }
 
         private static void ConfigureServices(IServiceCollection services)
@@ -24,12 +28,22 @@ namespace FileCopy
 
         public static void RunProgram(CLIOptions opts)
         {
+            ICollection<ValidationResult> lstvalidationResult;
+            if (!opts.Validate(out lstvalidationResult))
+            {
+                foreach (var error in lstvalidationResult)
+                {
+                    Console.Error.WriteLine("Error: " + error.ErrorMessage);
+                }
+                Environment.Exit(1);
+            }
+
             ConfigureServices(services);
             services
                 .AddSingleton<FileCopier, FileCopier>()
-                .BuildServiceProvider()
-                .GetService<FileCopier>()
-                .Execute(opts);
+            .BuildServiceProvider()
+            .GetService<FileCopier>()
+            .Execute(opts);
         }
     }
 }

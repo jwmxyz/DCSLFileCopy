@@ -19,11 +19,6 @@ namespace FileCopy
 
         public void Execute(CLIOptions opts)
         {
-            if (!opts.IsValid())
-            {
-                throw new Exception("Source and destination cannot be the same path");
-            }
-
             if (!_directoryWrapper.Exists(opts.DestinationPath))
             {
                 _directoryWrapper.CreateDirectory(opts.DestinationPath);
