@@ -27,14 +27,14 @@ namespace FileCopy.Config
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (Source.AbsolutePath.Equals(Destination.AbsolutePath, StringComparison.OrdinalIgnoreCase))
+            if (SourcePath.Equals(DestinationPath, StringComparison.OrdinalIgnoreCase))
             {
                 yield return new ValidationResult("Source uri cannot be the same as destination uri.");
             }
 
             if (!Directory.Exists(SourcePath))
             {
-                yield return new ValidationResult("The source directory does not exists.");
+                yield return new ValidationResult($"The source directory ({SourcePath}) does not exists.");
             }
         }
     }
