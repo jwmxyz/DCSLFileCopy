@@ -1,8 +1,8 @@
-﻿using FileCopy.Wrappers;
+﻿using CopyDirectory.Services.Wrappers;
 using System;
 using Xunit;
 
-namespace FileCopy.Tests
+namespace CopyDirectory.Tests
 {
     
     public class PathWrapperTests

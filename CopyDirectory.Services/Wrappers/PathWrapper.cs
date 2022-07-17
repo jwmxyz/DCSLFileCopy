@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace FileCopy.Wrappers
+namespace CopyDirectory.Services.Wrappers
 {
     public class PathWrapper : IPathWrapper
     {
@@ -9,7 +9,7 @@ namespace FileCopy.Wrappers
         {
             if (rootDirectory.EndsWith("\\"))
             {
-                rootDirectory = rootDirectory[0..^1];
+                rootDirectory = rootDirectory.Substring(0, rootDirectory.Length - 1);
             }
             // We need to +1 on the original source length to remove the leading `/`
             // Microsoft otherwise class it as a Rooted path and return the path2 variable instead of actually combining

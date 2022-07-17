@@ -1,6 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
-namespace FileCopy.Wrappers
+namespace CopyDirectory.Services.Wrappers
 {
     /// <summary>
     /// A wrapper class for the <cref="System.IO.Directory" /> class. 
@@ -20,14 +21,14 @@ namespace FileCopy.Wrappers
         /// </summary>
         /// <param name="path">The path to the directory we want to search</param>
         /// <returns>A string array of all the paths to all the directoryies under the path folder</returns>
-        string[] GetAllDirectories(string path);
+        IEnumerable<string> GetAllDirectories(string path, List<string> directories = null);
 
         /// <summary>
         /// Obtains all of the files under all of the directories
         /// </summary>
         /// <param name="path">The path to the root folder</param>
         /// <returns>A String array of all the paths to each of the files</returns>
-        string[] GetFiles(string path);
+        IEnumerable<string> GetFiles(string path, IEnumerable<string> directories, List<string> files = null);
 
         /// <summary>
         /// Checks to see if a directory already exists.

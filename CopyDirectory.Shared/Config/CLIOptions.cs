@@ -1,11 +1,10 @@
 ﻿using CommandLine;
-using FileCopy.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 
-namespace FileCopy.Config
+namespace CopyDirectory.Shared.Config
 {
     public class CLIOptions : IValidatableObject
     {

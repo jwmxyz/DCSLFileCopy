@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "FileCopy": {
-      "commandName": "Project",
-      "commandLineArgs": "-sC:\\Users\\John\\Pictures\\Screenshots\\ -d c:/test"
-    }
-  }
-}

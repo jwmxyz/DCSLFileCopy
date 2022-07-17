@@ -11,4 +11,9 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CopyDirectory.Services\CopyDirectory.Services.csproj" />
+    <ProjectReference Include="..\CopyDirectory.Shared\CopyDirectory.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

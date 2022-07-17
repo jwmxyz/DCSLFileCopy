@@ -1,4 +1,4 @@
-﻿namespace FileCopy.Wrappers
+﻿namespace CopyDirectory.Services.Wrappers
 {
     public interface IPathWrapper
     {

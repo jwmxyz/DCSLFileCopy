@@ -1,6 +1,10 @@
 
-FileCopy/bin/
-FileCopy/obj/
+CopyDirectory/bin/
+CopyDirectory/obj/
 .vs
-FileCopy.Tests/bin
-FileCopy.Tests/obj
+CopyDirectory.Tests/bin
+CopyDirectory.Tests/obj
+CopyDirectory.Services/bin/
+CopyDirectory.Services/obj/
+CopyDirectory.Shared/bin/
+CopyDirectory.Shared/obj/

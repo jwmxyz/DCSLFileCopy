@@ -1,13 +1,14 @@
 ﻿using CommandLine;
-using FileCopy.Config;
-using FileCopy.Helpers;
-using FileCopy.Wrappers;
+using CopyDirectory.ConsoleApp.Extension;
+using CopyDirectory.Services;
+using CopyDirectory.Services.Wrappers;
+using CopyDirectory.Shared.Config;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace FileCopy
+namespace CopyDirectory.ConsoleApp
 {
     public static class Program
     {
@@ -23,13 +24,13 @@ namespace FileCopy
         {
             services
                 .AddSingleton<IDirectoryWrapper, DirectoryWrapper>()
-                .AddSingleton<IPathWrapper, PathWrapper>();
+                .AddSingleton<IPathWrapper, PathWrapper>()
+                .AddSingleton<IMessageHandler, ConsoleMessageHandler>();
         }
 
         public static void RunProgram(CLIOptions opts)
         {
-            ICollection<ValidationResult> lstvalidationResult;
-            if (!opts.Validate(out lstvalidationResult))
+            if (!opts.ValidateObject(out ICollection<ValidationResult> lstvalidationResult))
             {
                 foreach (var error in lstvalidationResult)
                 {
@@ -44,6 +45,11 @@ namespace FileCopy
             .BuildServiceProvider()
             .GetService<FileCopier>()
             .Execute(opts);
+        }
+
+        public static void PrintToConsole(string message)
+        {
+            Console.WriteLine(message);
         }
     }
 }
