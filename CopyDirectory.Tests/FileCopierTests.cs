@@ -50,12 +50,13 @@ namespace FileCopy.Tests
             var FileDirectoryMock = new Mock<IDirectoryWrapper>();
             var PathWrapperMock = new Mock<IPathWrapper>();
             var ConsoleMessageHandler = new Mock<IMessageHandler>();
+            var FileWrapperMock = new Mock<IFileWrapper>();
             FileDirectoryMock.Setup(x => x.Exists(It.IsAny<string>())).Returns(false);
             FileDirectoryMock.Setup(x => x.CreateDirectory(It.IsAny<string>())).Returns(new DirectoryInfo("C:/sometestPath"));
-            FileDirectoryMock.Setup(x => x.GetAllDirectories(It.IsAny<string>(), null)).Returns(Array.Empty<string>());
-            FileDirectoryMock.Setup(x => x.GetFiles(It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), null)).Returns(Array.Empty<string>());
+            FileDirectoryMock.Setup(x => x.GetAllDirectories(It.IsAny<string>())).Returns(Array.Empty<string>());
+            FileDirectoryMock.Setup(x => x.GetFiles(It.IsAny<string>(), It.IsAny<IEnumerable<string>>())).Returns(Array.Empty<string>());
 
-            FileCopier copier = new FileCopier(FileDirectoryMock.Object, PathWrapperMock.Object, ConsoleMessageHandler.Object);
+            FileCopier copier = new FileCopier(FileDirectoryMock.Object, PathWrapperMock.Object, ConsoleMessageHandler.Object, FileWrapperMock.Object);
 
             copier.Execute(new CLIOptions
             {

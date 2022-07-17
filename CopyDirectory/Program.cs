@@ -3,6 +3,7 @@ using CopyDirectory.ConsoleApp.Extension;
 using CopyDirectory.Services;
 using CopyDirectory.Services.Wrappers;
 using CopyDirectory.Shared.Config;
+using CopyDirectory.Shared.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,8 @@ namespace CopyDirectory.ConsoleApp
         static void Main(string[] args)
         {
             Parser.Default.ParseArguments<CLIOptions>(args)
-                   .WithParsed(RunProgram);
+                   .WithParsed(RunProgram)
+                   .WithNotParsed(RunManually);
         }
 
         private static void ConfigureServices(IServiceCollection services)
@@ -25,7 +27,47 @@ namespace CopyDirectory.ConsoleApp
             services
                 .AddSingleton<IDirectoryWrapper, DirectoryWrapper>()
                 .AddSingleton<IPathWrapper, PathWrapper>()
+                .AddSingleton<IFileWrapper, FileWrapper>()
+                .AddSingleton<IMethodExecutionUtils, MethodExecutionUtils>()
                 .AddSingleton<IMessageHandler, ConsoleMessageHandler>();
+        }
+
+        public static void RunManually(IEnumerable<Error> errors)
+        {
+            var cliOptions = new CLIOptions();
+            bool validInput = false;
+            while (!validInput)
+            {
+                Console.WriteLine("Input Source Directory Path:");
+                string source = Console.ReadLine();
+                try
+                {
+                    cliOptions.Source = new Uri(source);
+                    validInput = true;
+                }
+                catch
+                {
+                    Console.Error.Write("Invalid source path..");
+                }
+
+            }
+            validInput = false;
+            while (!validInput)
+            {
+                Console.WriteLine("Input Destination Directory Path:");
+                string source = Console.ReadLine();
+                try
+                {
+                    cliOptions.Destination = new Uri(source);
+                    validInput = true;
+                }
+                catch
+                {
+                    Console.Error.WriteLine("Invalid destination path..");
+                }
+
+            }
+            RunProgram(cliOptions);
         }
 
         public static void RunProgram(CLIOptions opts)
