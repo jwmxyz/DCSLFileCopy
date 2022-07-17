@@ -15,11 +15,11 @@ namespace CopyDirectory.Services.Wrappers
             directories = directories ?? new List<string> { path };
 
             var subDirectories = Directory.GetDirectories(path).ToList();
+            directories.AddRange(subDirectories);
             foreach (var subDir in subDirectories)
             {
                 directories.AddRange(GetAllDirectories(subDir));
             }
-            directories.AddRange(subDirectories);
             return directories;
         }
 
