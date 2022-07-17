@@ -21,14 +21,14 @@ namespace CopyDirectory.Services.Wrappers
         /// </summary>
         /// <param name="path">The path to the directory we want to search</param>
         /// <returns>A string array of all the paths to all the directoryies under the path folder</returns>
-        IEnumerable<string> GetAllDirectories(string path, List<string> directories = null);
+        IEnumerable<string> GetAllDirectories(string path);
 
         /// <summary>
         /// Obtains all of the files under all of the directories
         /// </summary>
         /// <param name="path">The path to the root folder</param>
         /// <returns>A String array of all the paths to each of the files</returns>
-        IEnumerable<string> GetFiles(string path, IEnumerable<string> directories, List<string> files = null);
+        IEnumerable<string> GetFiles(string path, IEnumerable<string> directories);
 
         /// <summary>
         /// Checks to see if a directory already exists.
